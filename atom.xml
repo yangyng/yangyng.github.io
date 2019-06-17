@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://yangyng.github.io</id>
     <title>杨阳的博客</title>
-    <updated>2019-06-17T09:03:48.914Z</updated>
+    <updated>2019-06-17T09:16:05.769Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://yangyng.github.io"/>
     <link rel="self" href="https://yangyng.github.io/atom.xml"/>
@@ -10,6 +10,236 @@
     <logo>https://yangyng.github.io/images/avatar.png</logo>
     <icon>https://yangyng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 杨阳的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[Mysql Linux 环境下 使用Docker安装]]></title>
+        <id>https://yangyng.github.io/post/YFjckJCA7</id>
+        <link href="https://yangyng.github.io/post/YFjckJCA7">
+        </link>
+        <updated>2019-06-17T09:14:31.000Z</updated>
+        <content type="html"><![CDATA[<h5 id="mysql-linux-环境下-使用docker安装">Mysql Linux 环境下 使用Docker安装</h5>
+<blockquote>
+<pre><code>docker search mysql 用于查询所有可用的mysql镜像
+</code></pre>
+</blockquote>
+<blockquote>
+<pre><code>docker images -a 查看下载的镜像
+</code></pre>
+</blockquote>
+<blockquote>
+<pre><code>docker ps 查看运行中的 docker 进程
+</code></pre>
+</blockquote>
+<blockquote>
+<pre><code>docker run -it --rm --name mysql -e MYSQL_ROOT_PASSWORD=[你的密码] -p 3306:3306 -d mysql 启动mysql进程
+</code></pre>
+</blockquote>
+<blockquote>
+<pre><code>docker exec -it mysql bash 进入docker命令行模式
+mysql -uroot -p[你的密码] 进入mysql 
+</code></pre>
+</blockquote>
+<blockquote>
+<pre><code>select host,user,plugin,authentication_string from mysql.user; 查看用户信息
+</code></pre>
+<p>如果存在以下记录:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">host</th>
+<th style="text-align:center">user</th>
+<th style="text-align:center">plugin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">%</td>
+<td style="text-align:center">root</td>
+<td style="text-align:center">caching_sha2_password</td>
+</tr>
+</tbody>
+</table>
+<p>执行如下SQL</p>
+<pre><code>ALTER user 'root'@'%' IDENTIFIED WITH mysql_native_password BY '[你的密码]'; 
+</code></pre>
+<p>执行之后的结果如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">host</th>
+<th style="text-align:center">user</th>
+<th style="text-align:center">plugin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">%</td>
+<td style="text-align:center">root</td>
+<td style="text-align:center">mysql_native_password</td>
+</tr>
+</tbody>
+</table>
+<p>然后执行如下SQL更新配置</p>
+<pre><code>FLUSH PRIVILEGES;
+</code></pre>
+<p>即可正常使用</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ Redis 常用配置项]]></title>
+        <id>https://yangyng.github.io/post/rcmQSI3Yq</id>
+        <link href="https://yangyng.github.io/post/rcmQSI3Yq">
+        </link>
+        <updated>2019-06-17T09:11:37.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="redis-常用配置项">Redis 常用配置项</h4>
+<h5 id="设置redis以守护进程方式运行">设置redis以守护进程方式运行</h5>
+<blockquote>
+<p>daemonize no</p>
+</blockquote>
+<h5 id="指定端口号">指定端口号</h5>
+<blockquote>
+<p>port 6379</p>
+</blockquote>
+<h5 id="设置tcp的backlog">设置tcp的backlog</h5>
+<blockquote>
+<p>tcp-backlog 511</p>
+</blockquote>
+<p>**注意: **</p>
+<pre><code>backlog 是一个连接队列 
+backlog队列总和 = 未完成三次握手队列 + 已完成三次握手队列
+在高并发环境下需要一个高的backlog值来避免慢客户端连接问题
+Linux内核会将这个值减小到/proc/sys/net/core/somaxconn 的值，所以需要确认增大somaxconn和tcp_max_syn_backlog两个值来达到想要的
+</code></pre>
+<h5 id="绑定的主机地址">绑定的主机地址</h5>
+<blockquote>
+<p>bind 127.0.0.1</p>
+</blockquote>
+<h5 id="客户端闲置时间关闭连接-单位-秒-设置为-0-则永不关闭">客户端闲置时间关闭连接 单位 秒 设置为 0 则永不关闭</h5>
+<blockquote>
+<p>timeout 300</p>
+</blockquote>
+<h5 id="检测客户端网络中断时间间隔-单位-秒-设置为-0-则永不检测-建议设置-60">检测客户端网络中断时间间隔 单位 秒 设置为 0 则永不检测 建议设置 60</h5>
+<blockquote>
+<p>tcp-keepalive 0</p>
+</blockquote>
+<h5 id="日志级别-debug-verbose-notice-warning-默认值-verbosewindows-安装时-查看为-notice">日志级别 debug verbose notice warning 默认值 verbose(windows 安装时 查看为  notice)</h5>
+<blockquote>
+<p>loglevel notice</p>
+</blockquote>
+<h5 id="日志记录方式-默认为标准输出-如果配置-redis-为守护进程方式运行-在这里有配置为日志记录方式为标准输出-则日志将会发送给-devnull">日志记录方式 默认为标准输出 如果配置 redis 为守护进程方式运行, 在这里有配置为日志记录方式为标准输出 则日志将会发送给 /dev/null</h5>
+<blockquote>
+<p>logfile stdout</p>
+</blockquote>
+<h5 id="设置数据库数量-默认值-16-默认当前数据库-0-可以使用-select-dbid-指定数据库id">设置数据库数量 默认值 16 默认当前数据库 0 可以使用  select <dbid> 指定数据库id</h5>
+<blockquote>
+<p>databases 16</p>
+</blockquote>
+<h5 id="指定在多长时间内-有多少次更新操作-就将数据同步到数据文件-多条件时-同时成立">指定在多长时间内 有多少次更新操作 就将数据同步到数据文件 多条件时 同时成立</h5>
+<blockquote>
+<p>save <seconds> <changes></p>
+</blockquote>
+<blockquote>
+<p>示例 save 300 10 <strong>300秒内有10个更改就将数据同步到数据文件</strong></p>
+</blockquote>
+<h5 id="指定存储到数据库时是否压缩-默认-yes-redis-采用-lzf压缩">指定存储到数据库时是否压缩 默认 yes  redis 采用 LZF压缩</h5>
+<blockquote>
+<p>rdbcompssion yes</p>
+</blockquote>
+<h5 id="指定本地数据库文件名">指定本地数据库文件名</h5>
+<blockquote>
+<p>dbfilename dump.rdb</p>
+</blockquote>
+<h5 id="本地数据库存放地址">本地数据库存放地址</h5>
+<blockquote>
+<p>dir ./</p>
+</blockquote>
+<h5 id="设置本机-slave-服务时-设置master服务的ip地址及端口号在redis启动时自动从master进行数据同步">设置本机 slave 服务时 设置master服务的IP地址及端口号,在redis启动时,自动从master进行数据同步</h5>
+<blockquote>
+<p>slaveof <masterIP> <masterPort></p>
+</blockquote>
+<h5 id="master服务设置密码保护时-salve服务连接master-密码">master服务设置密码保护时 salve服务连接master 密码</h5>
+<blockquote>
+<p>masterauth <master-password></p>
+</blockquote>
+<h5 id="设置redis连接密码-如果配置连接密码-客户端连接时-需要通过-authpassword提供密码-默认关闭">设置redis连接密码 如果配置连接密码 客户端连接时 需要通过 auth<password>提供密码 默认关闭</h5>
+<blockquote>
+<p>requirepass foobared</p>
+</blockquote>
+<h5 id="设置同一时间最大客户端连接数">设置同一时间最大客户端连接数</h5>
+<blockquote>
+<p>maxclients 128</p>
+<p>**注意: **</p>
+<p>默认无限制</p>
+<p>当客户端连接数达到限制时  redis 会关闭新的连接并向客户端返回 max number of clients reached 错误信息</p>
+</blockquote>
+<h5 id="指定redis最大的内存限制">指定redis最大的内存限制</h5>
+<blockquote>
+<p>maxmemory <bytes></p>
+<p>**注意: **</p>
+<p>redis 启动时会将数据加载到内存中</p>
+<p>达到最大内存后,redis在尝试清除已到期或即将到期的KEY,当方法处理后,仍然达到最大内存设置,将无法再进行写入操作,但仍可以进行读取操作</p>
+<p>Redis 新的VM机制 会把key存放内存,value存放在 swap区</p>
+</blockquote>
+<h5 id="缓存过期策略很重要">缓存过期策略&lt;很重要&gt;</h5>
+<blockquote>
+<ul>
+<li>
+<p>volatile-lru 使用LRU算法(最近最少使用) 只对设置了过期时间的key</p>
+</li>
+<li>
+<p>volatile-random 随机移除 只对设置了过期时间的key</p>
+</li>
+<li>
+<p>volarile-ttl 移除ttl值最小以即最近要过期的key</p>
+</li>
+<li>
+<p>allkeys-lru 使用LRU算法 针对所有</p>
+</li>
+<li>
+<p>allkeys-random 随机移除 同上</p>
+</li>
+<li>
+<p>noeviction 永不过期 针对写操作 会返回错误信息</p>
+<p>maxmemory-policy noeviction</p>
+</li>
+</ul>
+</blockquote>
+<h5 id="是否在每次默认操作后进行日志记录">是否在每次默认操作后进行日志记录</h5>
+<blockquote>
+<p>redis 在默认情况下是一步的将数据写入磁盘,如果不开启 可能会在断电时导致一段时间内数据丢失</p>
+<p>因为redis本身同步数据文件是按上面save条件来同步的,所有的数据会在一段时间内置存在内存中</p>
+<p>appendonly no</p>
+</blockquote>
+<h5 id="指定更新日志文件名">指定更新日志文件名</h5>
+<blockquote>
+<p>appendfilename appendonly.aof</p>
+</blockquote>
+<h5 id="指定更新日志条件">指定更新日志条件</h5>
+<blockquote>
+<p>no 等操作系统进行数据缓存到磁盘(快)</p>
+<p>always 每次更新操作后手动调用fsync()将数据写到磁盘(慢 安全)</p>
+<p>everysec 每秒同步一次(折中  默认值)</p>
+<p>appendfsync everysec</p>
+</blockquote>
+<h5 id="是否启用虚拟内存机制">是否启用虚拟内存机制</h5>
+<blockquote>
+<p>默认值 no</p>
+<p>VM机制是将数据分页存放</p>
+<p>redis将访问量较小的页 及冷数据swap到磁盘上,访问多的页面由磁盘自动换出到内存中</p>
+<p>vm-enabled no</p>
+</blockquote>
+<h5 id="虚拟内存路径-不可多个redis实例共享">虚拟内存路径 不可多个redis实例共享</h5>
+<blockquote>
+<p>wm-swap-file /temp/redis.swap</p>
+</blockquote>
+<h5 id="将所有大于-vm-max-memory-的数据存入虚拟内存">将所有大于 vm-max-memory 的数据存入虚拟内存</h5>
+<blockquote>
+<p>无论 vm-max-memory设置的多小,所有索引数据都是内存存储的(redis的索引数据就是keys)</p>
+<p>当vm-max-memory设置为0时,其实就是讲所有value都存放在磁盘 默认值为0</p>
+<p>vm-max-memory 0</p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[如何使用RabbitMQ的一点小总结]]></title>
         <id>https://yangyng.github.io/post/mS0iMd-bJ</id>
