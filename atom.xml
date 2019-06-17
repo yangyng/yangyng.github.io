@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://yangyng.github.io</id>
     <title>杨阳的博客</title>
-    <updated>2019-06-17T09:16:05.769Z</updated>
+    <updated>2019-06-17T10:07:00.914Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://yangyng.github.io"/>
     <link rel="self" href="https://yangyng.github.io/atom.xml"/>
@@ -10,6 +10,51 @@
     <logo>https://yangyng.github.io/images/avatar.png</logo>
     <icon>https://yangyng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 杨阳的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[分布式锁及其实现方式]]></title>
+        <id>https://yangyng.github.io/post/UzPIBHidO</id>
+        <link href="https://yangyng.github.io/post/UzPIBHidO">
+        </link>
+        <updated>2019-06-17T09:21:39.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="分布式锁及相关">分布式锁及相关</h3>
+<blockquote>
+<p>分布式锁的概念 =&gt; 是控制分布式系统之间同步访问共享资源的一种方式</p>
+<p>使用场景 =&gt; 在分布式系统中,常常需要协调他们的动作,如果不同的系统或是同一个系统能够的不同主机之间共享了一个或 一组资源,那么访问这些资源的时候,往往需要互斥来防止彼此干扰来保证一致性,在这种情况下,便需要使用到分布式锁</p>
+<p>保证可用性 =&gt;</p>
+<ul>
+<li>==互斥性==,在任意时刻,只有一个客户端能够持有该锁</li>
+<li>==不会死锁==(死锁 =&gt; 当两个以上的请求方,双方都在等待对方释放锁,以获取系统资源,但没有一方提前退出时,就成为死锁 ==两个人过独木桥==)</li>
+<li>==容错性== 有一个客户端在持有锁的期间崩溃而没有主动解锁,也能保证后续其它客户端能使用该锁</li>
+</ul>
+</blockquote>
+<h4 id="基于redis的分布式锁">基于REDIS的分布式锁</h4>
+<h5 id="redission-简介">Redission 简介</h5>
+<blockquote>
+<p>Redis客户端在基于NIO的Netty框架上,充分的利用了Redis键值数据库提供的一系列优势,在Java实现工具包中常用接口的基础上,未使用这提供了一系列具有分布式特性的常用工具类</p>
+<p>支持Redis 单实例 哨兵 Cluster master-slave 等各种部署架构</p>
+</blockquote>
+<h6 id="1-redis使用lua脚本的-好处">1. redis使用lua脚本的 好处</h6>
+<ol>
+<li>原子性 Lua脚本是做为一个整体执行的,所以中间不会被其它命令插入</li>
+<li>减少网络开销 可以把多条命令一次性打包</li>
+</ol>
+<h6 id="2-基本思路">2. 基本思路</h6>
+<ol>
+<li>锁ID作为redis的key value为hash结构 hash的filed为获得锁的客户端ID value为加锁次数</li>
+<li>成功新建写入锁的Key对应的Hash的客户端占用锁</li>
+<li>==代码待补充==</li>
+<li>客户端不断循环重试执行Lua脚本,知道获得锁</li>
+<li>锁互斥机制 Lua脚本保证并发情况下加锁的原子性,中间不会被其他命令插入</li>
+</ol>
+<h6 id="3-可重入锁机制">3. 可重入锁机制</h6>
+<blockquote>
+<p>如果以获取客户端线程再次获取锁,该客户端线程的锁的次数+1</p>
+</blockquote>
+<h6 id="4-释放锁机制">4. 释放锁机制</h6>
+<p>该客户端的锁的次数-1
+如果发现加锁次数是0了,说明这个客户端已经不在持有锁了</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Mysql Linux 环境下 使用Docker安装]]></title>
         <id>https://yangyng.github.io/post/YFjckJCA7</id>
