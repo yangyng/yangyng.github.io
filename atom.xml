@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://yangyng.github.io</id>
     <title>杨阳的博客</title>
-    <updated>2019-06-18T09:56:49.353Z</updated>
+    <updated>2019-06-18T09:59:50.306Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://yangyng.github.io"/>
     <link rel="self" href="https://yangyng.github.io/atom.xml"/>
@@ -10,6 +10,37 @@
     <logo>https://yangyng.github.io/images/avatar.png</logo>
     <icon>https://yangyng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 杨阳的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[搭建VUE环境]]></title>
+        <id>https://yangyng.github.io/post/xZU_F4iZ3</id>
+        <link href="https://yangyng.github.io/post/xZU_F4iZ3">
+        </link>
+        <updated>2019-06-18T09:59:12.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="node-及-vue-环境搭建">NODE 及 VUE 环境搭建</h2>
+<p><a href="https://nodejs.org/dist/v10.15.0/node-v10.15.0-x64.msi/">NODE 下载地址</a></p>
+<p>安装成功后 <code>node -v</code> 查看版本</p>
+<p>更换镜像为淘宝源</p>
+<pre><code>npm config set registry https://registry.npm.taobao.org
+</code></pre>
+<p>使用 cnpm</p>
+<pre><code>npm install -g cnpm --registry=https://registry.npm.taobao.org
+</code></pre>
+<p>安装vue脚手架</p>
+<pre><code>cnpm install -g vue-cli
+</code></pre>
+<p>创建VUE项目</p>
+<pre><code>vue init webpack 项目名称
+</code></pre>
+<p>VUE 项目启动</p>
+<pre><code>npm run dev
+</code></pre>
+<p>VUE 项目打包</p>
+<pre><code>npm run build
+</code></pre>
+<p>项目部署</p>
+<p>找到 项目文件夹中的 dist 放到tomcat webapp中即可</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[TCP与HTTP的简单总结]]></title>
         <id>https://yangyng.github.io/post/Yu8MetoSD</id>
