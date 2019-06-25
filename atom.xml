@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://yangyng.github.io</id>
     <title>杨阳的博客</title>
-    <updated>2019-06-18T10:04:22.842Z</updated>
+    <updated>2019-06-25T10:28:36.236Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://yangyng.github.io"/>
     <link rel="self" href="https://yangyng.github.io/atom.xml"/>
@@ -10,6 +10,53 @@
     <logo>https://yangyng.github.io/images/avatar.png</logo>
     <icon>https://yangyng.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 杨阳的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[ Zookeeper 安装及使用]]></title>
+        <id>https://yangyng.github.io/post/irGtrHitc</id>
+        <link href="https://yangyng.github.io/post/irGtrHitc">
+        </link>
+        <updated>2019-06-25T10:11:06.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="zookeeper-安装及使用">Zookeeper 安装及使用</h3>
+<p><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/">下载地址</a></p>
+<p>使用 wget <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/">https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/</a> 下载安装包</p>
+<pre><code>tar -zxvf  zookeeper.tar.gz 解压
+</code></pre>
+<p>进入到 zookeeper 下conf 目录
+<img src="https://yangyng.github.io/post-images/1561458117644.png" alt=""></p>
+<pre><code>cp zoo_sample.cfg zoo.cfg //复制配置文件
+</code></pre>
+<p>编辑配置文件</p>
+<pre><code>vi zoo.cfg
+
+# 存储内存中数据库快照的位置，顾名思义就是 Zookeeper 保存数据的目录，默认情况下，Zookeeper 将写数据的日志文件也保存到这个目录里
+dataDir=/user/local/zookeeper/data 
+# 日志存储地址 该参数如果不设置 日志会默认打印到dataDir
+dataLogDir=/user/local/zookeeper/logs 
+# 基本事件单元，以毫秒为单位，这个时间作为 Zookeeper 服务器之间或客户端之间维持心跳的时间间隔
+tickTime=2000
+# 这个端口就是客户端连接 Zookeeper 服务器的端口，Zookeeper 会监听这个端口，接受客户端的访问请求
+clientPort=2181
+# 这个配置项是用来配置 Zookeeper 接受客户端初始化连接时最长能忍受多少个心跳时间间隔
+当已经超过 10 个心跳的时间也就是（ticktime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败，总的时间长度就是：10*2000 = 20s
+initLimit=10
+# 这个配置项表示 Leader 与 Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是：5*2000 = 10s
+syncLimit=5
+# A：表示这是第几号服务器 B：服务器的 IP 地址 C：服务器与集群中的 Leader 服务器交换信息的端口 D：一旦集群中的 Leader 服务器挂了，需要一个端口重新进行选举，选出一个新的 Leader
+2181：对外提供端口 2888：内部同步端口 3888：节点挂了，选举端口
+server.A = B:C:D
+</code></pre>
+<p>zookeeper 命令</p>
+<pre><code># 启动
+./bin/zkServer.sh  start 
+# 后台启动
+./bin/zkServer.sh start-foreground
+# 查看状态
+./bin/zkServer.sh  status 
+# 连接
+./bin/zkCli.sh
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[搭建VUE环境]]></title>
         <id>https://yangyng.github.io/post/xZU_F4iZ3</id>
