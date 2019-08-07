@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://yangyng.github.io</id>
     <title>杨阳的博客</title>
-    <updated>2019-07-26T10:07:34.098Z</updated>
+    <updated>2019-08-07T08:56:28.776Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://yangyng.github.io"/>
     <link rel="self" href="https://yangyng.github.io/atom.xml"/>
@@ -48,9 +48,9 @@
  -p 3306:3306 
  -v /src/tool/mysql/config/my.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf 
  -v /src/tool/mysql/data:/var/lib/mysql 
- -e MYSQL_USER=&quot;yangkei_blog&quot; 
- -e MYSQL_PASSWORD=&quot;yangkeiblog0329..&quot; 
- -e MYSQL_ROOT_PASSWORD=&quot;wuliao..0329&quot; 
+ -e MYSQL_USER=&quot;新建用户名&quot; 
+ -e MYSQL_PASSWORD=&quot;用户密码&quot; 
+ -e MYSQL_ROOT_PASSWORD=&quot;根用户密码&quot; 
  -d mysql:5.7
  
  -p 端口映射，格式为：主机(宿主)端口:容器端口
