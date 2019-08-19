@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1566207425379">
+<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1566208421447">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://yangyng.github.io/styles/main.css">
 
@@ -30,7 +30,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://yangyng.github.io">
-        <img class="avatar" src="https://yangyng.github.io/images/avatar.png?v=1566207425379" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://yangyng.github.io/images/avatar.png?v=1566208421447" alt="" width="32px" height="32px">
       </a>
       <a href="https://yangyng.github.io">
         <h1 class="site-title">杨阳的博客</h1>
@@ -91,9 +91,37 @@
 <blockquote>
 <p>​	在做统计工作时，由于需要大量的基础数据，所以生成了一份测试数据。但是在实际执行数据脚本时，发现执行速度实在是太慢了。3000 条数据跑了5分钟还没有结束。这样下去感觉下班之前数据都导不完。于是在一通百度下，整理出了如下的解决方式。</p>
 </blockquote>
-<h4 id="load-data-infile方式">LOAD DATA INFILE方式</h4>
-<p><a href="https://dev.mysql.com/doc/refman/8.0/en/load-data.html">Mysql 官网文档地址</a></p>
-<p>附代码：</p>
+<p><strong>当我们在数据库中添加一条记录的过程 各方的耗时是这样的</strong></p>
+<blockquote>
+<ul>
+<li>链接耗时 （30%）</li>
+<li>发送 query 到服务器 （20%）</li>
+<li>解析 query （20%）</li>
+<li>插入操作 （10% * 词条数目）</li>
+<li>插入 index （10% * Index的数目）</li>
+<li>关闭链接 （10%）</li>
+</ul>
+</blockquote>
+<p><strong>单值插入 最慢</strong></p>
+<pre><code class="language-mysql">INSERT INTO 【TABLE_NAME】 VALUES() 
+</code></pre>
+<p><strong>多值插入 较快</strong></p>
+<blockquote>
+<p>增加SQL的长度</p>
+<p>减少多次IO操作</p>
+</blockquote>
+<pre><code class="language-mysql">INSERT INTO 【TABLE_NAME】 VALUES(),(),(),()
+</code></pre>
+<p>**LOAD DATA LOCAL INFILE 方式 <a href="https://dev.mysql.com/doc/refman/8.0/en/load-data.html">Mysql 官网文档地址**</a></p>
+<pre><code class="language-mysql">LOAD DATA LOCAL INFILE 【FILE_PATH】 INTO TABLE 【TABLE_NAME】
+</code></pre>
+<p><strong>如果还不能满足的话 那么还有如下的地方可以优化</strong></p>
+<blockquote>
+<p>多线程插入</p>
+<p>在同一个事务内提交大量 插入</p>
+<p>数据库引擎使用 <strong>myisam</strong> 替代 <strong>innoDB</strong></p>
+</blockquote>
+<p>个人的解决方式（只适用于当下情况）附代码：</p>
 <pre><code class="language-java">package utils;
 
 import org.springframework.util.StringUtils;
