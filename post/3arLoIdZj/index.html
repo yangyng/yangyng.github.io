@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>记一次批量导入数据过慢的解决方案 | 杨阳的博客</title>
+<meta name="description" content="记录下">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1566207304101">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://yangyng.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://yangyng.github.io">
+        <img class="avatar" src="https://yangyng.github.io/images/avatar.png?v=1566207304101" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://yangyng.github.io">
+        <h1 class="site-title">杨阳的博客</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">记一次批量导入数据过慢的解决方案</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2019-08-19</span>
+            
+          </div>
+          <div class="post-content">
+            <h3 id="记一次批量导入数据过慢的解决方案">记一次批量导入数据过慢的解决方案</h3>
+<h4 id="问题">问题</h4>
+<blockquote>
+<p>​	在做统计工作时，由于需要大量的基础数据，所以生成了一份测试数据。但是在实际执行数据脚本时，发现执行速度实在是太慢了。3000 条数据跑了5分钟还没有结束。这样下去感觉下班之前数据都导不完。于是在一通百度下，整理出了如下的解决方式。</p>
+</blockquote>
+<h4 id="load-data-infile方式">LOAD DATA INFILE方式</h4>
+<p>附代码：</p>
+<pre><code class="language-java">package utils;
+
+import org.springframework.util.StringUtils;
+
+import java.io.*;
+import java.util.LinkedList;
+
+/**
+ * 适用于 Navicat 导出的脚本 在执行时过于缓慢的问题
+ * 解决方案
+ * &lt;p&gt;
+ *     分割数据 同表的数据建立单个的文件 表名.sql
+ *     获取所有的表结构 table.sql
+ *     创建加载数据的脚本 load.sql
+ *
+ *     执行顺序 table.sql -&gt; load.sql
+ * &lt;/p&gt;
+ *
+ * @author yang yang
+ * @email m17610912950@163.com
+ * @time 2019年08月19日 14:21
+ **/
+public class MysqlDataImportUtils {
+
+    public static LinkedList&lt;String&gt; tableList = new LinkedList&lt;String&gt;();
+
+    public static void main(String args[]) {
+        String path = &quot;C:\\Users\\Administrator\\Desktop\\g.sql&quot;;
+        try {
+            splitSqlFile(path);
+            writeSqlFile();
+            getTableFile(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 将SQL文件切割
+     *
+     * @param filePath
+     * @return void
+     * @date 2019-08-19
+     * @author yang yang
+     **/
+    public static void splitSqlFile(String filePath) throws Exception {
+        //创建输出流
+        BufferedWriter out = null;
+        //创建输入流 用于读取SQL文件
+        FileReader reader = new FileReader(filePath);
+        BufferedReader br = new BufferedReader(reader);
+        try {
+            String line;
+            String tn = null;
+            //当有下一行时 读取
+            while ((line = br.readLine()) != null) {
+                //当读取到的行的信息是 添加的记录时
+                if (line.contains(&quot;INSERT&quot;) || line.contains(&quot;INTO&quot;) || line.contains(&quot;VALUES&quot;)) {
+                    //获取表的名称
+                    String tableName = line.substring(line.indexOf(&quot;`&quot;) + 1, line.lastIndexOf(&quot;`&quot;));
+                    //缓存中的表名为空 且获取到的表名称非空时 (第一次读取到添加的记录)
+                    if (StringUtils.isEmpty(tn) &amp;&amp; !StringUtils.isEmpty(tableName)) {
+                        tn = tableName;
+                        //创建文件
+                        File writeName = new File(tn + &quot;.sql&quot;);
+                        // 创建新文件,有同名的文件的话直接覆盖
+                        boolean newFile = writeName.createNewFile();
+                        //创建写入流
+                        FileWriter writer = new FileWriter(writeName);
+                        out = new BufferedWriter(writer);
+                        // 缓存中添加 表的名称 用于后续的处理【用于生成加载 添加数据的 脚本】
+                        tableList.add(tn);
+                    }
+                    if (!StringUtils.isEmpty(tn) &amp;&amp; !StringUtils.isEmpty(tableName)) {
+                        //表名是否一致 如果一致 向文件中写入数据 【此时读取到 当前表的数据】
+                        if (tn.equalsIgnoreCase(tableName)) {
+                            String tableInfo = line.substring(line.indexOf(&quot;(&quot;) + 1, line.indexOf(&quot;)&quot;));
+                            String all = tableInfo.replaceAll(&quot;, &quot;, &quot;|&quot;);
+                            all = all.replaceAll(&quot;'&quot;, &quot;&quot;);
+                            all = all.replaceAll(&quot;`&quot;, &quot;&quot;);
+                            out.write(all + &quot;,\r\n&quot;);
+                        }
+                        //表名不一致时 释放输出流 【此时读取到 另外一个表的添加记录】
+                        if (!tn.equalsIgnoreCase(tableName)) {
+                            out.flush();
+                            out.close();
+                            out = null;
+                            tn = null;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //关闭读入流
+            reader.close();
+            // 关闭输出流
+            if (null != out) {
+                out.flush();
+                out.close();
+            }
+        }
+    }
+
+    /**
+     * 获取SQL文件中所有 建表语句
+     * @param filePath
+     * @return void
+     * @date 2019-08-19
+     * @author yang yang
+     **/
+    public static void getTableFile(String filePath) throws Exception {
+        try {
+            //读取文件
+            FileReader reader = new FileReader(filePath);
+            BufferedReader br = new BufferedReader(reader);
+            //用于写出 文件
+            File writeName = new File(&quot;table.sql&quot;);
+            writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
+            try (FileWriter writer = new FileWriter(writeName);
+                 BufferedWriter out = new BufferedWriter(writer)
+            ) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if (!(line.contains(&quot;INSERT&quot;) || line.contains(&quot;INTO&quot;) || line.contains(&quot;VALUES&quot;))) {
+                        out.write(line + &quot;\r\n&quot;);
+                    }
+                }
+                out.flush(); // 把缓存区内容压入文件
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 用于数据库加载分割后数据的脚本
+     * @param
+     * @return void
+     * @date 2019-08-19
+     * @author yang yang
+     **/
+    public static void writeSqlFile() throws Exception {
+        try {
+            // 相对路径，如果没有则要建立一个新的output.txt文件 【输出的脚本文件】
+            File writeName = new File(&quot;load.sql&quot;);
+            writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
+            try (FileWriter writer = new FileWriter(writeName);
+                 BufferedWriter out = new BufferedWriter(writer)
+            ) {
+                for (String tableName : tableList) {
+                    StringBuffer sb = new StringBuffer();
+                    sb.append(&quot; LOAD DATA LOCAL INFILE 'F:/workspace/dev/2.0.0/&quot; + tableName + &quot;.sql' INTO TABLE &quot; + tableName + &quot; &quot;);
+                    sb.append(&quot; CHARACTER SET utf8 &quot;);
+                    sb.append(&quot; FIELDS TERMINATED BY '|' &quot;);
+                    sb.append(&quot; OPTIONALLY ENCLOSED BY '' &quot;);
+                    sb.append(&quot; ESCAPED BY '\\\\' &quot;);
+                    sb.append(&quot; LINES TERMINATED BY '\n'; &quot;);
+                    out.write(sb.toString() + &quot;\r\n&quot;);
+                }
+                out.flush(); // 把缓存区内容压入文件
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+</code></pre>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://yangyng.github.io/post/9dILA-L7C">
+              <h3 class="post-title">
+                下一篇：Docker 安装Mysql并挂载到主机
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">记录下</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://yangyng.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
