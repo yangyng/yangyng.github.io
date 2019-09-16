@@ -1,0 +1,292 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>如何使用RabbitMQ的一点小总结 | 杨阳的博客</title>
+<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1568620801646">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://yangyng.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yangyng.github.io">
+  <img class="avatar" src="https://yangyng.github.io/images/avatar.png?v=1568620801646" alt="">
+  </a>
+  <h1 class="site-title">
+    杨阳的博客
+  </h1>
+  <p class="site-description">
+    记录下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/yangyng" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              如何使用RabbitMQ的一点小总结
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2019-06-17 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('https://yangyng.github.io/post-images/mS0iMd-bJ.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <h3 id="本文主要介绍一些mq的基础概念以及简单的安装使用">本文主要介绍一些MQ的基础概念,以及简单的安装使用</h3>
+<!-- more -->
+<h2 id="rabbit-mq-windows-安装-注意事项">rabbit mq windows 安装 注意事项</h2>
+<h3 id="erlang-安装">erlang 安装</h3>
+<p><strong>下载地址</strong></p>
+<p><a href="http://www.erlang.org/downloads" title="erlang 下载路径">http://www.erlang.org/downloads</a></p>
+<p><strong>环境变量配置</strong> <code>ERLANG_HOME 安装路径</code></p>
+<p><strong>注意事项</strong>
+安装erlang 时注意 一致</p>
+<pre><code>C:\Windows\System32\config\systemprofile\.erlang.cookie
+
+C:\Users\用户名\.erlang.cookie
+</code></pre>
+<hr>
+<h3 id="rabbit-mq-安装">rabbit mq 安装</h3>
+<p><strong>下载地址</strong></p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.5" title="rabbit mq下载路径">https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.5</a></p>
+<p>出现失败时</p>
+<pre><code>rabbit-service start 启动服务
+rabbit-service stop 关闭服务
+rabbit-service remove 移除服务
+rabbitmq-plugins enable rabbitmq_management 安装页面管理工具
+</code></pre>
+<hr>
+<h3 id="rabbit-mq-使用">rabbit mq 使用</h3>
+<pre><code>//获取连接
+ConnectionFactory connectionFactory = new ConnectionFactory();
+//地址
+connectionFactory.setHost(&quot;127.0.0.1&quot;);
+//端口号
+connectionFactory.setPort(5672);
+//用户名
+connectionFactory.setUserName(&quot;guest&quot;);
+//密码
+connectionFactory.setPassword(&quot;guest&quot;);
+//获取连接
+Connection connection = connectionFactory.getConnection();
+//获取通道
+Channel channel = connection.getChannel();
+//test 队列名称
+channel.queueDeclare(&quot;test&quot;,false,false,false,null);
+//消息
+String message = &quot;this is a test message&quot;;
+//发送消息
+channel.basicPublish(&quot;&quot;,&quot;test&quot;,null,message.getBytes());
+//关闭频道 关闭连接
+channel.close();
+connection.close();
+</code></pre>
+<hr>
+<h3 id="基本知识简介">基本知识简介</h3>
+<ol>
+<li>ConnectionFactory 用来获取连接</li>
+<li>connection rabbitMq的socket连接,丰庄路socket协议相关部分逻辑</li>
+<li>channel用来定义Queue(队列)定义Exchange(交换机)绑定Queue与Exchange 发布消息等操作</li>
+</ol>
+<h3 id="queue">queue</h3>
+<p>rabbitMq的内部对象 用来存储消息</p>
+<h4 id="message-acknowledgment">Message acknowledgment</h4>
+<p>消息确认机制</p>
+<pre><code>mq在收到消息回执时将消息从queue中移除,如果没有收到回执,并检测到消费者的rabbitmq连接断开,会将消息发送给其它消费者(如果存在多个消费者)处理
+</code></pre>
+<p>开发过程注意</p>
+<pre><code>处理完业务逻辑后,没有发送回执给RabbitMQ,会导致Queue中的消息越来越多,消费者重启后出现消息的重复消费问题
+</code></pre>
+<p>消息的持久化以及消息的事务性</p>
+<h4 id="prefetch-count">Prefetch count</h4>
+<p>可以设置该参数控制发给每个消费者的消息数.<img src="http://ostest.qiniudn.com/wordpress/wp-content/uploads/2014/02/2014-2-21-9-49-08.png" alt="Prefetch count">比如我们设置prefetchCount=1，则Queue每次给每个消费者发送一条消息；消费者处理完这条消息后Queue会再给该消费者发送一条消息。</p>
+<h4 id="声明queue">声明Queue</h4>
+<ul>
+<li>
+<p>消费者无法订阅或者获取不存在的Queue中的信息</p>
+</li>
+<li>
+<p>消息被Exchange接受之后,如果没有匹配的Queue,会被丢弃</p>
+<p>无论是消费者还是生产者,在使用时,即发送或者接受消息是,去尝试建立消息队列,因为加入客户端去尝试创建一个已经存在的消息队列时,是不会做任何操作,并返回成功.</p>
+<p>一个消费者在一个信道中正在监听一个队列的消息时,不允许该消费者在同一个channel中声明其它队列</p>
+</li>
+</ul>
+<p>声明方式 queue.declare</p>
+<ul>
+<li>
+<p><strong>Exclusive 排他队列</strong></p>
+<p>该队列仅对首次声明它的连接可见,并在连接断开时自动删除.</p>
+<p>1.排他队列是基于连接可见的,同一连接的不同信道可以同时访问同一个连接创建的排他队列</p>
+<p>2.一个连接已经声明了一个排他队列,其它连接不允许建立同名的排他队列.</p>
+<p>3.即使设置该队列是持久化的,一旦连接关闭或者客户端退出,该排他队列都会被自动删除.</p>
+</li>
+<li>
+<p><strong>Auto-delete 自动删除</strong> 适用于临时队列</p>
+</li>
+<li>
+<p><strong>durable持久化</strong> 在连接断开或者客户端重启后仍会存活</p>
+</li>
+</ul>
+<p><strong>总结</strong></p>
+<pre><code>存活周期仅限于当前连接
+自动删除的特性
+仅能创建一次
+</code></pre>
+<hr>
+<h4 id="路由规则">路由规则</h4>
+<ul>
+<li><strong>direct 路由规则完全相同 <em>exp:</em> ==</strong></li>
+<li><strong>topic 模糊匹配路由规则 <em>exp:</em> like</strong></li>
+<li><strong>fanout 发布与订阅方式</strong></li>
+</ul>
+<h4 id="消费者订阅消息">消费者订阅消息</h4>
+<ul>
+<li>
+<p><strong>basic.consume</strong></p>
+<p>订阅某队列中的消息后,channel自动在处理完上一条消息后,接受下一条消息.(同一个channel中消息处理是并行的)除非关闭channel或者取消订阅,否则客户端将会一直接收队列的消息.</p>
+</li>
+<li>
+<p><strong>basic.get</strong></p>
+<p>主动获取队列中的消息,但是不可以通过循环调用basic.get来代替basic.consume,basic,get在实际执行的时候,首先consume某一队列,然后检索第一条消息,然后在取消订阅,在高吞吐量的消费者,最好使用第一种方式</p>
+</li>
+</ul>
+<p>多个消费者同时订阅同一个队列,RabbitMQ是采用循环的方式分发消息的,每一条消息只能被一个订阅者接收.消费者在接到消息时,需要给服务器发送一套确认命令,可以在HandelDelivery中调用basic.ack实现,也可以在consume某个队列时,设置autoACK属性为true.如果消费者在接到消息以后还没来得及返回ACK就断开了连接,消息服务器会重传该消息给下一个订阅者,没有订阅者就会存储该消息.</p>
+<hr>
+<h4 id="生产者消息确认">生产者消息确认</h4>
+<ol>
+<li>
+<p>事务机制</p>
+<pre><code> Channel channel = getChannel();
+
+ //将信道置为 publisher confirm 模式
+ try {
+     channel.txSelect();
+     channel.basicPublish(&quot;TEST_DIRECT_EXCHANGE&quot;, &quot;TEST_QUEUE&quot;,
+             null, &quot;this is a test msg&quot;.getBytes());
+     int result = 1 / 0;
+     channel.txCommit();
+ } catch (IOException e) {
+     channel.txRollback();
+     channel.close();
+ }
+</code></pre>
+</li>
+<li>
+<p>发送方确认机制</p>
+<p>Channel channel = getChannel();</p>
+<pre><code> //将信道置为 publisher confirm 模式
+ channel.confirmSelect();
+
+ channel.basicPublish(&quot;TEST_DIRECT_EXCHANGE&quot;, &quot;TEST_QUEUE&quot;,
+         null, &quot;this is a test msg&quot;.getBytes());
+
+ if (channel.waitForConfirms()) {
+     System.out.println(&quot;msg send failure %n hhh&quot;);
+ }
+
+ channel.close();
+</code></pre>
+</li>
+<li>
+<p>批量confirm</p>
+</li>
+<li>
+<p>异步confirm</p>
+</li>
+</ol>
+<p><strong>QPS</strong></p>
+<p><strong>异步confirm 支持的峰值最高</strong></p>
+<p><strong>均值 异步与批量相差不多 大约是其他两种的五到六倍</strong></p>
+<p><strong>均值 普通confirm 比事务方式略高</strong></p>
+<h4 id="消息的消费">消息的消费</h4>
+<p>对于同一个消息队列 如果拥有多个消费者时 队列收到的消息将以轮询的分发方式发送给消费者</p>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yangyng.github.io/post/8doV_ak0A">
+              <h3 class="post-title">
+                RabbitMQ 使用延迟队列的一点代码
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://yangyng.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

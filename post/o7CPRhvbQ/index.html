@@ -1,0 +1,160 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>mysql 基础知识总结 | 杨阳的博客</title>
+<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1568620801646">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://yangyng.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yangyng.github.io">
+  <img class="avatar" src="https://yangyng.github.io/images/avatar.png?v=1568620801646" alt="">
+  </a>
+  <h1 class="site-title">
+    杨阳的博客
+  </h1>
+  <p class="site-description">
+    记录下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/yangyng" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              mysql 基础知识总结
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2019-07-15 ·
+              </time>
+              
+                <a href="https://yangyng.github.io/tag/nCJjm8VQO" class="post-tag">
+                  # MYSQL
+                </a>
+              
+            </div>
+            
+            <div class="post-content">
+              <h4 id="mysql-存储过程">mysql 存储过程</h4>
+<h6 id="什么是存储过程">什么是存储过程</h6>
+<p>为以后使用而创建的一条或者多条SQL语句的集合，可视为批文件，但其作用不仅限于批处理。可以用来处理一些复杂的重复的操作。</p>
+<h6 id="为什么要使用存储过程">为什么要使用存储过程</h6>
+<ul>
+<li>简单 简化复杂的操作</li>
+<li>安全</li>
+<li>高性能 使用存储过程比使用简单的SQL要更加的快</li>
+</ul>
+<h6 id="新建存储过程">新建存储过程</h6>
+<pre><code class="language-mysql">-- 创建存储过程 IN 参数 sel_date 选中时间 OUT 返回值 reg_user_nums 选中天注册的用户数量
+CREATE PROCEDURE US_USER_SELECT_DAY ( IN sel_date VARCHAR ( 13 ) ,OUT US_USER_NUMS int(10) ) BEGIN
+SELECT
+-- 将统计结果赋值给返回值
+	COUNT( REG_ID ) INTO  US_USER_NUMS FROM US_USER 
+WHERE
+	DATE( REG_DATE ) = DATE( sel_date );
+END;
+</code></pre>
+<p>在以上示例中 可以看到 存储过程可以传递参数【sel_date】，可以定义返回值【US_USER_NUMS】</p>
+<h6 id="删除存储过程">删除存储过程</h6>
+<pre><code class="language-mysql">-- 当存在该存储过程时 删除
+DROP PROCEDURE IF EXISTS US_USER_SELECT_DAY;
+</code></pre>
+<h6 id="执行存储过程">执行存储过程</h6>
+<pre><code class="language-mysql">-- 执行存储过程
+CALL US_USER_SELECT_DAY ( '2019-6-27', @total );
+-- 获取返回值
+SELECT @total;
+</code></pre>
+<p>其中【@total】为以上定义的返回值 【'2019-6-27'】为参数值 筛选时间</p>
+<h6 id="查看存储过程信息">查看存储过程信息</h6>
+<pre><code class="language-mysql">-- 查看存储过程的详细信息
+SHOW PROCEDURE STATUS LIKE 'US_USER_SELECT_DAY%' 
+</code></pre>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yangyng.github.io/post/yhwAqiPTR">
+              <h3 class="post-title">
+                JAVA 网络编程之 Socket
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://yangyng.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

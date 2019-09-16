@@ -1,0 +1,534 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JAVA基础总结 | 杨阳的博客</title>
+<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1568620801646">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://yangyng.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yangyng.github.io">
+  <img class="avatar" src="https://yangyng.github.io/images/avatar.png?v=1568620801646" alt="">
+  </a>
+  <h1 class="site-title">
+    杨阳的博客
+  </h1>
+  <p class="site-description">
+    记录下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/yangyng" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              JAVA基础总结
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2019-06-17 ·
+              </time>
+              
+                <a href="https://yangyng.github.io/tag/_UKF5RM03" class="post-tag">
+                  # JAVA基础
+                </a>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('https://yangyng.github.io/post-images/c4zpXbVC3.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <h2 id="java基础知识">JAVA基础知识</h2>
+<h4 id="1-八种数据类型">1. 八种数据类型</h4>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>包装类</th>
+<th>字节</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>double</td>
+<td>Double</td>
+<td>8位</td>
+<td>0.0D</td>
+</tr>
+<tr>
+<td>float</td>
+<td>Float</td>
+<td>4位</td>
+<td>0.0F</td>
+</tr>
+<tr>
+<td>long</td>
+<td>Long</td>
+<td>8位</td>
+<td>1L</td>
+</tr>
+<tr>
+<td>int</td>
+<td>Integer</td>
+<td>4位</td>
+<td>1</td>
+</tr>
+<tr>
+<td>short</td>
+<td>Short</td>
+<td>2位</td>
+<td>(short)1</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>byte</td>
+<td>1位</td>
+<td>(byte)0</td>
+</tr>
+<tr>
+<td>char</td>
+<td>Character</td>
+<td>2位</td>
+<td>null\u0000</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>Boolean</td>
+<td>--</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2引用数据类型">2.引用数据类型</h4>
+<ul>
+<li>类</li>
+<li>接口</li>
+<li>数组</li>
+</ul>
+<h4 id="3switch是否可以使用string作为参数">3.Switch是否可以使用String作为参数</h4>
+<p><strong>Jdk7.0 之前</strong> byte short char int 可以强转</br>
+<strong>Jdk7.0 之后</strong> 整形 枚举类型 boolean 字符串都可以</p>
+<h4 id="4equals与的区别">4.equals与==的区别</h4>
+<blockquote>
+<p>== 比较的是对象的地址 </br>
+equals 比较的时间对象的内容</p>
+</blockquote>
+<h4 id="5自动装箱-常量池">5.自动装箱 ,常量池</h4>
+<blockquote>
+<p>自动装箱: 基本数据类型=&gt;对象类型</p>
+<p>自动拆箱: 对象类型=&gt;基本数据类型</p>
+</blockquote>
+<blockquote>
+<p>常量池:Byte Short Integer Long Character 在自动装箱时对于值从-128-127之间的值(共享),会在内存中被重用</p>
+</blockquote>
+<h4 id="6object有哪些公用方法">6.Object有哪些公用方法</h4>
+<ul>
+<li>clone()</li>
+<li>hashCode()</li>
+<li>equals()</li>
+<li>notify()</li>
+<li>wait()</li>
+<li>notifyAll()</li>
+<li>getClass()</li>
+<li>toString()</li>
+<li>finalize()</li>
+</ul>
+<h4 id="7java的四种引用">7.Java的四种引用</h4>
+<ul>
+<li>强引用: 使用普遍的引用,内存空间不住了,一般垃圾和回收期绝不会回收它</li>
+<li>软引用: 弱引用可用来实现内存敏感的高速缓存,内存空间不足了,就会回收这些对象的内存</li>
+<li>弱引用: 具有弱引用的对象,不管当前内存空间足够与否,都会回收它的内存</li>
+<li>虚引用: 虚引用并不会决定对象的生命周期.如果一个对象仅持有虚引用,那么它就和没有任何引用一样,在任何时候都可能被垃圾回收器回收</li>
+</ul>
+<h4 id="8hashcode的作用">8.HashCode的作用</h4>
+<p>Java中的hashCode方法就是根据一定的规则将与对象相关的信息(对象的存储地址,对象的字段等)映射成一个数值,这个数值称作为散列值,降低equals的调用,实现存放的值不会重复</p>
+<h4 id="9arraylist-linkedlist-vector的作用">9.ArrayList、LinkedList、Vector的作用</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">线程是否安全</th>
+<th style="text-align:center">实现方式</th>
+<th style="text-align:center">扩容</th>
+<th style="text-align:center">适合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ArrayList</td>
+<td style="text-align:center">不安全</td>
+<td style="text-align:center">数组</td>
+<td style="text-align:center">自动扩容50%</td>
+<td style="text-align:center">查找</td>
+</tr>
+<tr>
+<td style="text-align:center">LinkedList</td>
+<td style="text-align:center">不安全</td>
+<td style="text-align:center">链表</td>
+<td style="text-align:center">删除</td>
+<td style="text-align:center">插入</td>
+</tr>
+<tr>
+<td style="text-align:center">Vector</td>
+<td style="text-align:center">安全</td>
+<td style="text-align:center">数组</td>
+<td style="text-align:center">自动扩容100%</td>
+<td style="text-align:center">查找</td>
+</tr>
+</tbody>
+</table>
+<h4 id="10string-stringbuffer-stringbuilder">10.String StringBuffer StringBuilder</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">线程是否安全</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">对象信息</th>
+<th style="text-align:center">适合</th>
+<th style="text-align:center">补充说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">String</td>
+<td style="text-align:center">--</td>
+<td style="text-align:center">final修饰的字符串常量</td>
+<td style="text-align:center">String对象一旦创建之后是不可更改的</td>
+<td style="text-align:center">--</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">StringBuffer</td>
+<td style="text-align:center">安全</td>
+<td style="text-align:center">字符串常量</td>
+<td style="text-align:center">对象可变</td>
+<td style="text-align:center">适合多线程下字符串缓冲区大量操作</td>
+<td style="text-align:center">继承AbstractStringBuilder 容量为16</td>
+</tr>
+<tr>
+<td style="text-align:center">StringBuilder</td>
+<td style="text-align:center">不安全</td>
+<td style="text-align:center">字符串常量</td>
+<td style="text-align:center">对象可变</td>
+<td style="text-align:center">适合单线程下字符缓冲区大量操作</td>
+<td style="text-align:center">继承AbstractStringBuilder 容量为16</td>
+</tr>
+</tbody>
+</table>
+<h4 id="11map-set-list-queue-stack的特点与用法">11.Map Set List Queue Stack的特点与用法</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">实现方式</th>
+<th style="text-align:center">线程是否安全</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">是否有序</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">HashMap</td>
+<td style="text-align:center">键值对</td>
+<td style="text-align:center">不安全</td>
+<td style="text-align:center">不能存储null值</td>
+<td style="text-align:center">无序</td>
+</tr>
+<tr>
+<td style="text-align:center">HashTable</td>
+<td style="text-align:center">键值对</td>
+<td style="text-align:center">安全</td>
+<td style="text-align:center">可以存储null值</td>
+<td style="text-align:center">无序</td>
+</tr>
+<tr>
+<td style="text-align:center">TreeMap</td>
+<td style="text-align:center">键值对</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">有序</td>
+</tr>
+<tr>
+<td style="text-align:center">ArrayList</td>
+<td style="text-align:center">数组</td>
+<td style="text-align:center">不安全</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">LinkedList</td>
+<td style="text-align:center">链表</td>
+<td style="text-align:center">不安全</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Vector</td>
+<td style="text-align:center">数组</td>
+<td style="text-align:center">安全</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Stack</td>
+<td style="text-align:center">后进先出的栈</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="12collection与collections的区别">12.Collection与Collections的区别</h4>
+<blockquote>
+<p>Collection是各种集合结构的父接口</p>
+<p>Collections包含有各种有关集合操作的静态方法</p>
+</blockquote>
+<h4 id="13trycatchfinally执行">13.try?catch?finally执行</h4>
+<blockquote>
+<p>finally 中的return也会执行 除非中途遇到JVM退出</p>
+</blockquote>
+<h4 id="14exception和error">14.Exception和Error</h4>
+<blockquote>
+<p>两者都是Throwable的子类</p>
+<p>Exception 之处了合理的应用程序想要捕获的条件</p>
+<p>Error用于只是合理的应用程序不应该视图捕获的严重问题.大多数这样的错误都是异常条件</p>
+</blockquote>
+<p>OOM中</p>
+<ul>
+<li>Java heap溢出</li>
+<li>虚拟机栈和本地方法栈溢出</li>
+<li>运行时常量池溢出</li>
+<li>方法溢出</li>
+</ul>
+<p>SOF(StackOverflowError) 当应用程序递归太深发生堆栈溢出时,抛出该错误</p>
+<h4 id="15oop的三个特征和含义">15.OOP的三个特征和含义</h4>
+<blockquote>
+<p>封装: 可见性封装,set get读写,将类的某些特征隐藏在类的内部,不允许外部程序直接访问,而是通过该类提供的方法来实现对隐藏信息的访问和操作</p>
+</blockquote>
+<blockquote>
+<p>继承: 子类继承父类,可以得到父类的全部属性和方法(除了父类中的构造方法),JAVA中的多继承可以通过接口来实现</p>
+</blockquote>
+<blockquote>
+<p>多态: 已是==编译时多态==,另外一种是==运行时多态==,==编译时多态==通过方法的重载来实现,==运行时多态==通过方法的重写来实现</p>
+</blockquote>
+<h4 id="16重载override和重写overload">16.重载(Override)和重写(Overload)</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">相同</th>
+<th style="text-align:center">不同</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">重写(Override)</td>
+<td style="text-align:center">子类覆盖父类的方法</br>子类抛出的异常不能超过父类响应方法抛出的异常</br>子类方法的访问级别不能低于弗雷响应方法的访问级别</td>
+<td style="text-align:center">返回类型|参数|参数类型|抛出异常</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">重载(Overload)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">方法名</td>
+<td style="text-align:center">参数个数|参数数量</td>
+</tr>
+</tbody>
+</table>
+<h4 id="17interface与abstract类的区别">17.interface与abstract类的区别</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">interface</th>
+<th style="text-align:center">abstract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">构造方法</td>
+<td style="text-align:center">--</td>
+<td style="text-align:center">有</td>
+</tr>
+<tr>
+<td style="text-align:center">普通成员变量</td>
+<td style="text-align:center">--</td>
+<td style="text-align:center">有</td>
+</tr>
+<tr>
+<td style="text-align:center">非抽象的普通方法</td>
+<td style="text-align:center">--</td>
+<td style="text-align:center">有</td>
+</tr>
+<tr>
+<td style="text-align:center">静态方法</td>
+<td style="text-align:center">--</td>
+<td style="text-align:center">有</td>
+</tr>
+<tr>
+<td style="text-align:center">静态成员变量</td>
+<td style="text-align:center">只能切默认为public static final</td>
+<td style="text-align:center">任意类型</td>
+</tr>
+<tr>
+<td style="text-align:center">访问类型</td>
+<td style="text-align:center">只能为public 默认为public abstract</td>
+<td style="text-align:center">public protected</td>
+</tr>
+<tr>
+<td style="text-align:center">继承与实现</td>
+<td style="text-align:center">一个类可以实现多个接口</td>
+<td style="text-align:center">单继承</td>
+</tr>
+</tbody>
+</table>
+<h4 id="18静态内部类和非静态内部类">18.静态内部类和非静态内部类</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">static class</th>
+<th style="text-align:center">not static class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">指向外部类的引用</td>
+<td style="text-align:center">需要</td>
+<td style="text-align:center">不需要</td>
+</tr>
+<tr>
+<td style="text-align:center">描述</td>
+<td style="text-align:center">可以访问外部类的静态成员==不能访问外部类的非静态成员==</td>
+<td style="text-align:center">访问外部类的静态和非静态成员</td>
+</tr>
+</tbody>
+</table>
+<h4 id="19foreach和for">19.foreach和for</h4>
+<blockquote>
+<p>对于数组 相差不大</p>
+</blockquote>
+<blockquote>
+<p>对于链表 for循环效率比foreach低</p>
+</blockquote>
+<h4 id="20io与nio">20.IO与NIO</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">IO</th>
+<th style="text-align:center">NIO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">是否阻塞</td>
+<td style="text-align:center">阻塞</td>
+<td style="text-align:center">非阻塞</td>
+</tr>
+<tr>
+<td style="text-align:center">面向</td>
+<td style="text-align:center">流</td>
+<td style="text-align:center">缓冲区(块)</td>
+</tr>
+<tr>
+<td style="text-align:center">描述</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">管道(Channel) 缓冲(Buffer) 选择器(Selector)</td>
+</tr>
+<tr>
+<td style="text-align:center">应用</td>
+<td style="text-align:center">少连接 大数据</td>
+<td style="text-align:center">多连接 少数据</td>
+</tr>
+</tbody>
+</table>
+<h4 id="21xml解析方式">21.XML解析方式</h4>
+<blockquote>
+<p><strong>DOM:</strong> 将整个XML文档转化成DOM树存放在内存中</p>
+</blockquote>
+<blockquote>
+<p><strong>SAX:</strong> 采用事件驱动,通过事件处理函数实现对XML文档的访问</p>
+</blockquote>
+
+            </div>
+          </article>
+        </div>
+
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://yangyng.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

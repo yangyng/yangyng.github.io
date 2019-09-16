@@ -1,371 +1,282 @@
 <html>
   <head>
     <meta charset="utf-8" />
+<meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>杨阳的博客</title>
-<meta name="description" content="记录下" />
-<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1568620040082">
+<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1568620801646">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-
 <link rel="stylesheet" href="https://yangyng.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="杨阳的博客 - Atom Feed" href="https://yangyng.github.io/atom.xml">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
 
 
 
   </head>
   <body>
-    <div id="app" class="main px-4 flex flex-col lg:flex-row">
-      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
-  <div class="lg:sticky top-0">
-    <div class="sidebar-content">
-      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
-        <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
-        <a href="https://yangyng.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://yangyng.github.io/images/avatar.png?v=1568620040082" alt="">
-        </a>
-        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">杨阳的博客</h1>
-      </div>
-      
-        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
-          <p class="my-4 text-gray-600 font-light hidden lg:block">
-            记录下
-          </p>
-          <div class="animated fadeInLeft social-container hidden lg:block" style="animation-delay: 0.6s">
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-          </div>
-        </div>
-      
-    </div>
-  </div>
-</div>
-
-<div class="menu-container">
-  <i class="remixicon-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
-  <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yangyng.github.io">
+  <img class="avatar" src="https://yangyng.github.io/images/avatar.png?v=1568620801646" alt="">
+  </a>
+  <h1 class="site-title">
+    杨阳的博客
+  </h1>
+  <p class="site-description">
+    记录下
+  </p>
+  <div class="menu-container">
     
       
-        <a href="/" class="menu" style="animation-delay: 0s">
+        <a href="/" class="menu">
           首页
         </a>
       
     
       
-        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+        <a href="/archives" class="menu">
           归档
         </a>
       
     
       
-        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+        <a href="/tags" class="menu">
           标签
         </a>
       
     
       
-        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+        <a href="/post/about" class="menu">
           关于
         </a>
       
     
   </div>
-  <div class="site-footer">
-    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
-    <a class="rss" href="https://yangyng.github.io/atom.xml" target="_blank">RSS</a>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/yangyng" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
   </div>
 </div>
-<div class="mask" onclick="closeMenu()">
-</div>
-      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4">
-        <h2 class="text-lg text-gray-700 mb-8">
-          <i class="remixicon-archive-line"></i> 文章归档
-        </h2>
+
+    
         
 
-        <div class="archives-container">
-          
-            <h2 class="text-gray-600 py-4 animated fadeIn">
-              <i class="remixicon-map-pin-time-line"></i>
-              2019
+<div class="archives-container">
+  
+    <h2 class="year">2019</h2>
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/3arLoIdZj">
+            <h2 class="post-title">
+              记一次批量导入数据过慢的解决方案
+              <small>2019-08-19</small>
             </h2>
-            
-              
-                <a href="https://yangyng.github.io/post/3arLoIdZj" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    记一次批量导入数据过慢的解决方案
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-08-19</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/9dILA-L7C" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    Docker 安装Mysql并挂载到主机
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-07-26</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/o7CPRhvbQ" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    mysql 基础知识总结
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-07-15</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/yhwAqiPTR" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    JAVA 网络编程之 Socket
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-27</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/irGtrHitc" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                     Zookeeper 安装及使用
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-25</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/xZU_F4iZ3" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    搭建VUE环境
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-18</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/Yu8MetoSD" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    TCP与HTTP的简单总结
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-18</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/MHozHIZbh" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    Nginx的安装与简单的使用
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-18</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/zWjpEx39_" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    Linux常用指令
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-18</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/RZblMP02A" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    什么是HashMap?
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-18</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/UzPIBHidO" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    分布式锁及其实现方式
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-17</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/YFjckJCA7" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    Mysql Linux 环境下 使用Docker安装
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-17</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/rcmQSI3Yq" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                     Redis 常用配置项
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-17</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/mS0iMd-bJ" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    如何使用RabbitMQ的一点小总结
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-17</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/8doV_ak0A" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    RabbitMQ 使用延迟队列的一点代码
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-17</div>
-              
-            
-              
-                <a href="https://yangyng.github.io/post/c4zpXbVC3" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    JAVA基础总结
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2019-06-17</div>
-              
-            
-          
-        </div>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/9dILA-L7C">
+            <h2 class="post-title">
+              Docker 安装Mysql并挂载到主机
+              <small>2019-07-26</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/o7CPRhvbQ">
+            <h2 class="post-title">
+              mysql 基础知识总结
+              <small>2019-07-15</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/yhwAqiPTR">
+            <h2 class="post-title">
+              JAVA 网络编程之 Socket
+              <small>2019-06-27</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/irGtrHitc">
+            <h2 class="post-title">
+               Zookeeper 安装及使用
+              <small>2019-06-25</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/xZU_F4iZ3">
+            <h2 class="post-title">
+              搭建VUE环境
+              <small>2019-06-18</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/Yu8MetoSD">
+            <h2 class="post-title">
+              TCP与HTTP的简单总结
+              <small>2019-06-18</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/MHozHIZbh">
+            <h2 class="post-title">
+              Nginx的安装与简单的使用
+              <small>2019-06-18</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/zWjpEx39_">
+            <h2 class="post-title">
+              Linux常用指令
+              <small>2019-06-18</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/RZblMP02A">
+            <h2 class="post-title">
+              什么是HashMap?
+              <small>2019-06-18</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/UzPIBHidO">
+            <h2 class="post-title">
+              分布式锁及其实现方式
+              <small>2019-06-17</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/YFjckJCA7">
+            <h2 class="post-title">
+              Mysql Linux 环境下 使用Docker安装
+              <small>2019-06-17</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/rcmQSI3Yq">
+            <h2 class="post-title">
+               Redis 常用配置项
+              <small>2019-06-17</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/mS0iMd-bJ">
+            <h2 class="post-title">
+              如何使用RabbitMQ的一点小总结
+              <small>2019-06-17</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/8doV_ak0A">
+            <h2 class="post-title">
+              RabbitMQ 使用延迟队列的一点代码
+              <small>2019-06-17</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://yangyng.github.io/post/c4zpXbVC3">
+            <h2 class="post-title">
+              JAVA基础总结
+              <small>2019-06-17</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+  
+</div>
 
-        <div>
-          <div class="pagination-container animated fadeIn">
+    
+        <div class="pagination-container">
   
   
 </div>
 
-        </div>
+    
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://yangyng.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
       </div>
     </div>
-
-    <script src="https://yangyng.github.io/media/prism.js"></script>  
-<script>
-
-Prism.highlightAll()
-
-let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
-
-// This should probably be throttled.
-// Especially because it triggers during smooth scrolling.
-// https://lodash.com/docs/4.17.10#throttle
-// You could do like...
-// window.addEventListener("scroll", () => {
-//    _.throttle(doThatStuff, 100);
-// });
-// Only not doing it here to keep this Pen dependency-free.
-
-window.addEventListener("scroll", event => {
-  let fromTop = window.scrollY;
-
-  mainNavLinks.forEach((link, index) => {
-    let section = document.getElementById(decodeURI(link.hash).substring(1));
-    let nextSection = null
-    if (mainNavLinks[index + 1]) {
-      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-    }
-    if (section.offsetTop <= fromTop) {
-      if (nextSection) {
-        if (nextSection.offsetTop > fromTop) {
-          link.classList.add("current");
-        } else {
-          link.classList.remove("current");    
-        }
-      } else {
-        link.classList.add("current");
-      }
-    } else {
-      link.classList.remove("current");
-    }
-  });
-});
-
-
-document.addEventListener("DOMContentLoaded", function() {
-  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
-
-  if ("IntersectionObserver" in window) {
-    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          let lazyImage = entry.target
-          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
-          lazyImage.classList.remove("lazy")
-          lazyImageObserver.unobserve(lazyImage)
-        }
-      });
-    });
-
-    lazyImages.forEach(function(lazyImage) {
-      lazyImageObserver.observe(lazyImage)
-    })
-  } else {
-    // Possibly fall back to a more compatible method here
-  }
-});
-
-const menuContainer = document.querySelector('.menu-container')
-const menus = document.querySelectorAll('.menu-container .menu')
-const mask = document.querySelector('.mask')
-const contentWrapper = document.querySelector('.content-wrapper')
-const latestArticle = document.querySelector('.latest-article')
-const readMore = document.querySelector('.read-more')
-const indexPage = document.querySelector('.index-page')
-
-const isHome = location.pathname === '/'
-if (latestArticle) {
-  latestArticle.style.display = isHome ? 'block' : 'none'
-  readMore.style.display = isHome ? 'block' : 'none'
-  indexPage.style.display = isHome ? 'none' : 'block'
-}
-
-const openMenu = () => {
-  menuContainer.classList.add('open')
-  menus.forEach(menu => {
-    menu.classList.add('animated', 'fadeInLeft')
-  })
-  mask.classList.add('open')
-  contentWrapper.classList.add('is-second')
-}
-
-const closeMenu = () => {
-  menuContainer.classList.remove('open')
-  menus.forEach(menu => {
-    menu.classList.remove('animated', 'fadeInLeft')
-  })
-  mask.classList.remove('open')
-  contentWrapper.classList.remove('is-second')
-}
-</script>
-  
   </body>
 </html>
