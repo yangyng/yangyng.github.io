@@ -1,97 +1,136 @@
 <html>
   <head>
     <meta charset="utf-8" />
-<meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title> Redis 常用配置项 | 杨阳的博客</title>
-<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1568620801646">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<title>杨阳的博客</title>
+<meta name="description" content="记录下" />
+<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1568774749928">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://yangyng.github.io/styles/main.css">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+<link rel="stylesheet" href="https://yangyng.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="杨阳的博客 - Atom Feed" href="https://yangyng.github.io/atom.xml">
 
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://yangyng.github.io">
-  <img class="avatar" src="https://yangyng.github.io/images/avatar.png?v=1568620801646" alt="">
-  </a>
-  <h1 class="site-title">
-    杨阳的博客
-  </h1>
-  <p class="site-description">
-    记录下
-  </p>
-  <div class="menu-container">
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://yangyng.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://yangyng.github.io/images/avatar.png?v=1568774749928" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">杨阳的博客</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#redis-%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E9%A1%B9">Redis 常用配置项</a>
+<ul>
+<li><a href="#%E8%AE%BE%E7%BD%AEredis%E4%BB%A5%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%96%B9%E5%BC%8F%E8%BF%90%E8%A1%8C">设置redis以守护进程方式运行</a></li>
+<li><a href="#%E6%8C%87%E5%AE%9A%E7%AB%AF%E5%8F%A3%E5%8F%B7">指定端口号</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AEtcp%E7%9A%84backlog">设置tcp的backlog</a></li>
+<li><a href="#%E7%BB%91%E5%AE%9A%E7%9A%84%E4%B8%BB%E6%9C%BA%E5%9C%B0%E5%9D%80">绑定的主机地址</a></li>
+<li><a href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%97%B2%E7%BD%AE%E6%97%B6%E9%97%B4%E5%85%B3%E9%97%AD%E8%BF%9E%E6%8E%A5-%E5%8D%95%E4%BD%8D-%E7%A7%92-%E8%AE%BE%E7%BD%AE%E4%B8%BA-0-%E5%88%99%E6%B0%B8%E4%B8%8D%E5%85%B3%E9%97%AD">客户端闲置时间关闭连接 单位 秒 设置为 0 则永不关闭</a></li>
+<li><a href="#%E6%A3%80%E6%B5%8B%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%BD%91%E7%BB%9C%E4%B8%AD%E6%96%AD%E6%97%B6%E9%97%B4%E9%97%B4%E9%9A%94-%E5%8D%95%E4%BD%8D-%E7%A7%92-%E8%AE%BE%E7%BD%AE%E4%B8%BA-0-%E5%88%99%E6%B0%B8%E4%B8%8D%E6%A3%80%E6%B5%8B-%E5%BB%BA%E8%AE%AE%E8%AE%BE%E7%BD%AE-60">检测客户端网络中断时间间隔 单位 秒 设置为 0 则永不检测 建议设置 60</a></li>
+<li><a href="#%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB-debug-verbose-notice-warning-%E9%BB%98%E8%AE%A4%E5%80%BC-verbosewindows-%E5%AE%89%E8%A3%85%E6%97%B6-%E6%9F%A5%E7%9C%8B%E4%B8%BA-notice">日志级别 debug verbose notice warning 默认值 verbose(windows 安装时 查看为  notice)</a></li>
+<li><a href="#%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95%E6%96%B9%E5%BC%8F-%E9%BB%98%E8%AE%A4%E4%B8%BA%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA-%E5%A6%82%E6%9E%9C%E9%85%8D%E7%BD%AE-redis-%E4%B8%BA%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%96%B9%E5%BC%8F%E8%BF%90%E8%A1%8C-%E5%9C%A8%E8%BF%99%E9%87%8C%E6%9C%89%E9%85%8D%E7%BD%AE%E4%B8%BA%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95%E6%96%B9%E5%BC%8F%E4%B8%BA%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA-%E5%88%99%E6%97%A5%E5%BF%97%E5%B0%86%E4%BC%9A%E5%8F%91%E9%80%81%E7%BB%99-devnull">日志记录方式 默认为标准输出 如果配置 redis 为守护进程方式运行, 在这里有配置为日志记录方式为标准输出 则日志将会发送给 /dev/null</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E9%87%8F-%E9%BB%98%E8%AE%A4%E5%80%BC-16-%E9%BB%98%E8%AE%A4%E5%BD%93%E5%89%8D%E6%95%B0%E6%8D%AE%E5%BA%93-0-%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-select-dbid-%E6%8C%87%E5%AE%9A%E6%95%B0%E6%8D%AE%E5%BA%93id">设置数据库数量 默认值 16 默认当前数据库 0 可以使用  select <dbid> 指定数据库id</a></li>
+<li><a href="#%E6%8C%87%E5%AE%9A%E5%9C%A8%E5%A4%9A%E9%95%BF%E6%97%B6%E9%97%B4%E5%86%85-%E6%9C%89%E5%A4%9A%E5%B0%91%E6%AC%A1%E6%9B%B4%E6%96%B0%E6%93%8D%E4%BD%9C-%E5%B0%B1%E5%B0%86%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%88%B0%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6-%E5%A4%9A%E6%9D%A1%E4%BB%B6%E6%97%B6-%E5%90%8C%E6%97%B6%E6%88%90%E7%AB%8B">指定在多长时间内 有多少次更新操作 就将数据同步到数据文件 多条件时 同时成立</a></li>
+<li><a href="#%E6%8C%87%E5%AE%9A%E5%AD%98%E5%82%A8%E5%88%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%B6%E6%98%AF%E5%90%A6%E5%8E%8B%E7%BC%A9-%E9%BB%98%E8%AE%A4-yes-redis-%E9%87%87%E7%94%A8-lzf%E5%8E%8B%E7%BC%A9">指定存储到数据库时是否压缩 默认 yes  redis 采用 LZF压缩</a></li>
+<li><a href="#%E6%8C%87%E5%AE%9A%E6%9C%AC%E5%9C%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%87%E4%BB%B6%E5%90%8D">指定本地数据库文件名</a></li>
+<li><a href="#%E6%9C%AC%E5%9C%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%98%E6%94%BE%E5%9C%B0%E5%9D%80">本地数据库存放地址</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E6%9C%AC%E6%9C%BA-slave-%E6%9C%8D%E5%8A%A1%E6%97%B6-%E8%AE%BE%E7%BD%AEmaster%E6%9C%8D%E5%8A%A1%E7%9A%84ip%E5%9C%B0%E5%9D%80%E5%8F%8A%E7%AB%AF%E5%8F%A3%E5%8F%B7%E5%9C%A8redis%E5%90%AF%E5%8A%A8%E6%97%B6%E8%87%AA%E5%8A%A8%E4%BB%8Emaster%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5">设置本机 slave 服务时 设置master服务的IP地址及端口号,在redis启动时,自动从master进行数据同步</a></li>
+<li><a href="#master%E6%9C%8D%E5%8A%A1%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4%E6%97%B6-salve%E6%9C%8D%E5%8A%A1%E8%BF%9E%E6%8E%A5master-%E5%AF%86%E7%A0%81">master服务设置密码保护时 salve服务连接master 密码</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AEredis%E8%BF%9E%E6%8E%A5%E5%AF%86%E7%A0%81-%E5%A6%82%E6%9E%9C%E9%85%8D%E7%BD%AE%E8%BF%9E%E6%8E%A5%E5%AF%86%E7%A0%81-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%97%B6-%E9%9C%80%E8%A6%81%E9%80%9A%E8%BF%87-authpassword%E6%8F%90%E4%BE%9B%E5%AF%86%E7%A0%81-%E9%BB%98%E8%AE%A4%E5%85%B3%E9%97%AD">设置redis连接密码 如果配置连接密码 客户端连接时 需要通过 auth<password>提供密码 默认关闭</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E5%90%8C%E4%B8%80%E6%97%B6%E9%97%B4%E6%9C%80%E5%A4%A7%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%95%B0">设置同一时间最大客户端连接数</a></li>
+<li><a href="#%E6%8C%87%E5%AE%9Aredis%E6%9C%80%E5%A4%A7%E7%9A%84%E5%86%85%E5%AD%98%E9%99%90%E5%88%B6">指定redis最大的内存限制</a></li>
+<li><a href="#%E7%BC%93%E5%AD%98%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5%E5%BE%88%E9%87%8D%E8%A6%81">缓存过期策略&lt;很重要&gt;</a></li>
+<li><a href="#%E6%98%AF%E5%90%A6%E5%9C%A8%E6%AF%8F%E6%AC%A1%E9%BB%98%E8%AE%A4%E6%93%8D%E4%BD%9C%E5%90%8E%E8%BF%9B%E8%A1%8C%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95">是否在每次默认操作后进行日志记录</a></li>
+<li><a href="#%E6%8C%87%E5%AE%9A%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E5%90%8D">指定更新日志文件名</a></li>
+<li><a href="#%E6%8C%87%E5%AE%9A%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97%E6%9D%A1%E4%BB%B6">指定更新日志条件</a></li>
+<li><a href="#%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E6%9C%BA%E5%88%B6">是否启用虚拟内存机制</a></li>
+<li><a href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E8%B7%AF%E5%BE%84-%E4%B8%8D%E5%8F%AF%E5%A4%9A%E4%B8%AAredis%E5%AE%9E%E4%BE%8B%E5%85%B1%E4%BA%AB">虚拟内存路径 不可多个redis实例共享</a></li>
+<li><a href="#%E5%B0%86%E6%89%80%E6%9C%89%E5%A4%A7%E4%BA%8E-vm-max-memory-%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E5%85%A5%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98">将所有大于 vm-max-memory 的数据存入虚拟内存</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="remixicon-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
     
       
-        <a href="/" class="menu">
+        <a href="/" class="menu" style="animation-delay: 0s">
           首页
         </a>
       
     
       
-        <a href="/archives" class="menu">
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
           归档
         </a>
       
     
       
-        <a href="/tags" class="menu">
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
           标签
         </a>
       
     
       
-        <a href="/post/about" class="menu">
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
           关于
         </a>
       
     
   </div>
-  <div class="social-container">
-    
-      
-        <a href="https://github.com/yangyng" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://yangyng.github.io/atom.xml" target="_blank">RSS</a>
   </div>
 </div>
-
-
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-               Redis 常用配置项
-            </h2>
-            <div class="post-info">
-              <time class="post-time">
-                · 2019-06-17 ·
-              </time>
-              
-            </div>
-            
-              <div class="post-feature-image" style="background-image: url('https://yangyng.github.io/post-images/rcmQSI3Yq.jpg')">
-              </div>
-            
-            <div class="post-content">
-              <h4 id="redis-常用配置项">Redis 常用配置项</h4>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16"> Redis 常用配置项</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2019-06-17 / 2 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://yangyng.github.io/post-images/rcmQSI3Yq.jpg" alt="">
+        
+        <div class="post-content yue">
+          <h4 id="redis-常用配置项">Redis 常用配置项</h4>
 <h5 id="设置redis以守护进程方式运行">设置redis以守护进程方式运行</h5>
 <blockquote>
 <p>daemonize no</p>
@@ -239,33 +278,138 @@ Linux内核会将这个值减小到/proc/sys/net/core/somaxconn 的值，所以�
 <p>vm-max-memory 0</p>
 </blockquote>
 
-            </div>
-          </article>
         </div>
 
         
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://yangyng.github.io/post/mS0iMd-bJ">
-              <h3 class="post-title">
-                如何使用RabbitMQ的一点小总结
-              </h3>
-            </a>
-          </div>
-        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://yangyng.github.io/post/YFjckJCA7">
+                <h3 class="post-title">
+                  <i class="remixicon-arrow-left-line"></i>
+                  Mysql Linux 环境下 使用Docker安装
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://yangyng.github.io/post/mS0iMd-bJ">
+                <h3 class="post-title">
+                  如何使用RabbitMQ的一点小总结
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
 
         
-
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
-  <a class="rss" href="https://yangyng.github.io/atom.xml" target="_blank">RSS</a>
-</div>
-
-<script>
-  hljs.initHighlightingOnLoad()
-</script>
 
       </div>
     </div>
+
+    <script src="https://yangyng.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
   </body>
 </html>

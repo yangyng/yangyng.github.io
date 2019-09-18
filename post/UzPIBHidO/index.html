@@ -1,105 +1,127 @@
 <html>
   <head>
     <meta charset="utf-8" />
-<meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>分布式锁及其实现方式 | 杨阳的博客</title>
-<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1568620801646">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<title>杨阳的博客</title>
+<meta name="description" content="记录下" />
+<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1568774749928">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://yangyng.github.io/styles/main.css">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+<link rel="stylesheet" href="https://yangyng.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="杨阳的博客 - Atom Feed" href="https://yangyng.github.io/atom.xml">
 
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://yangyng.github.io">
-  <img class="avatar" src="https://yangyng.github.io/images/avatar.png?v=1568620801646" alt="">
-  </a>
-  <h1 class="site-title">
-    杨阳的博客
-  </h1>
-  <p class="site-description">
-    记录下
-  </p>
-  <div class="menu-container">
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://yangyng.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://yangyng.github.io/images/avatar.png?v=1568774749928" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">杨阳的博客</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8F%8A%E7%9B%B8%E5%85%B3">分布式锁及相关</a>
+<ul>
+<li><a href="#%E5%9F%BA%E4%BA%8Eredis%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">基于REDIS的分布式锁</a>
+<ul>
+<li><a href="#redission-%E7%AE%80%E4%BB%8B">Redission 简介</a>
+<ul>
+<li><a href="#1-redis%E4%BD%BF%E7%94%A8lua%E8%84%9A%E6%9C%AC%E7%9A%84-%E5%A5%BD%E5%A4%84">1. redis使用lua脚本的 好处</a></li>
+<li><a href="#2-%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF">2. 基本思路</a></li>
+<li><a href="#3-%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%E6%9C%BA%E5%88%B6">3. 可重入锁机制</a></li>
+<li><a href="#4-%E9%87%8A%E6%94%BE%E9%94%81%E6%9C%BA%E5%88%B6">4. 释放锁机制</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="remixicon-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
     
       
-        <a href="/" class="menu">
+        <a href="/" class="menu" style="animation-delay: 0s">
           首页
         </a>
       
     
       
-        <a href="/archives" class="menu">
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
           归档
         </a>
       
     
       
-        <a href="/tags" class="menu">
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
           标签
         </a>
       
     
       
-        <a href="/post/about" class="menu">
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
           关于
         </a>
       
     
   </div>
-  <div class="social-container">
-    
-      
-        <a href="https://github.com/yangyng" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://yangyng.github.io/atom.xml" target="_blank">RSS</a>
   </div>
 </div>
-
-
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              分布式锁及其实现方式
-            </h2>
-            <div class="post-info">
-              <time class="post-time">
-                · 2019-06-17 ·
-              </time>
-              
-            </div>
-            
-              <div class="post-feature-image" style="background-image: url('https://yangyng.github.io/post-images/UzPIBHidO.jpg')">
-              </div>
-            
-            <div class="post-content">
-              <h3 id="分布式锁及相关">分布式锁及相关</h3>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">分布式锁及其实现方式</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2019-06-17 / 1 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://yangyng.github.io/post-images/UzPIBHidO.jpg" alt="">
+        
+        <div class="post-content yue">
+          <h3 id="分布式锁及相关">分布式锁及相关</h3>
 <blockquote>
 <p>分布式锁的概念 =&gt; 是控制分布式系统之间同步访问共享资源的一种方式</p>
 <p>使用场景 =&gt; 在分布式系统中,常常需要协调他们的动作,如果不同的系统或是同一个系统能够的不同主机之间共享了一个或 一组资源,那么访问这些资源的时候,往往需要互斥来防止彼此干扰来保证一致性,在这种情况下,便需要使用到分布式锁</p>
 <p>保证可用性 =&gt;</p>
 <ul>
-<li>==互斥性==,在任意时刻,只有一个客户端能够持有该锁</li>
-<li>==不会死锁==(死锁 =&gt; 当两个以上的请求方,双方都在等待对方释放锁,以获取系统资源,但没有一方提前退出时,就成为死锁 ==两个人过独木桥==)</li>
-<li>==容错性== 有一个客户端在持有锁的期间崩溃而没有主动解锁,也能保证后续其它客户端能使用该锁</li>
+<li><mark>互斥性</mark>,在任意时刻,只有一个客户端能够持有该锁</li>
+<li><mark>不会死锁</mark>(死锁 =&gt; 当两个以上的请求方,双方都在等待对方释放锁,以获取系统资源,但没有一方提前退出时,就成为死锁 <mark>两个人过独木桥</mark>)</li>
+<li><mark>容错性</mark> 有一个客户端在持有锁的期间崩溃而没有主动解锁,也能保证后续其它客户端能使用该锁</li>
 </ul>
 </blockquote>
 <h4 id="基于redis的分布式锁">基于REDIS的分布式锁</h4>
@@ -117,7 +139,7 @@
 <ol>
 <li>锁ID作为redis的key value为hash结构 hash的filed为获得锁的客户端ID value为加锁次数</li>
 <li>成功新建写入锁的Key对应的Hash的客户端占用锁</li>
-<li>==代码待补充==</li>
+<li><mark>代码待补充</mark></li>
 <li>客户端不断循环重试执行Lua脚本,知道获得锁</li>
 <li>锁互斥机制 Lua脚本保证并发情况下加锁的原子性,中间不会被其他命令插入</li>
 </ol>
@@ -126,36 +148,141 @@
 <p>如果以获取客户端线程再次获取锁,该客户端线程的锁的次数+1</p>
 </blockquote>
 <h6 id="4-释放锁机制">4. 释放锁机制</h6>
-<p>该客户端的锁的次数-1
+<p>该客户端的锁的次数-1<br>
 如果发现加锁次数是0了,说明这个客户端已经不在持有锁了</p>
 
-            </div>
-          </article>
         </div>
 
         
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://yangyng.github.io/post/YFjckJCA7">
-              <h3 class="post-title">
-                Mysql Linux 环境下 使用Docker安装
-              </h3>
-            </a>
-          </div>
-        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://yangyng.github.io/post/RZblMP02A">
+                <h3 class="post-title">
+                  <i class="remixicon-arrow-left-line"></i>
+                  什么是HashMap?
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://yangyng.github.io/post/YFjckJCA7">
+                <h3 class="post-title">
+                  Mysql Linux 环境下 使用Docker安装
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
 
         
-
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
-  <a class="rss" href="https://yangyng.github.io/atom.xml" target="_blank">RSS</a>
-</div>
-
-<script>
-  hljs.initHighlightingOnLoad()
-</script>
 
       </div>
     </div>
+
+    <script src="https://yangyng.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
   </body>
 </html>
