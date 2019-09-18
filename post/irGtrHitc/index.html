@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>杨阳的博客</title>
 <meta name="description" content="记录下" />
-<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1568774898581">
+<link rel="shortcut icon" href="https://yangyng.github.io/favicon.ico?v=1568775664314">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://yangyng.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://yangyng.github.io/images/avatar.png?v=1568774898581" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://yangyng.github.io/images/avatar.png?v=1568775664314" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">杨阳的博客</h1>
       </div>
@@ -35,13 +35,9 @@
           </p>
           <div class="toc-container hidden lg:block">
             <ul class="markdownIt-TOC">
-<li>
+<li><a href="#zookeeper-%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8">Zookeeper 安装及使用</a>
 <ul>
-<li>
-<ul>
-<li><a href="#zookeeper-%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8">Zookeeper 安装及使用</a></li>
-</ul>
-</li>
+<li><a href="#zookeeper-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">zookeeper 常用命令</a></li>
 </ul>
 </li>
 </ul>
@@ -96,10 +92,10 @@
         </div>
         
         <div class="post-content yue">
-          <h3 id="zookeeper-安装及使用">Zookeeper 安装及使用</h3>
+          <h1 id="zookeeper-安装及使用">Zookeeper 安装及使用</h1>
 <p><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/">下载地址</a></p>
 <p>使用 wget <a href="https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/">https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/</a> 下载安装包</p>
-<pre><code>tar -zxvf  zookeeper.tar.gz 解压
+<pre><code>tar -zxvf zookeeper.tar.gz 解压
 </code></pre>
 <p>进入到 zookeeper 下conf 目录<br>
 <img src="https://yangyng.github.io/post-images/1561458117644.png" alt=""></p>
@@ -125,7 +121,7 @@ syncLimit=5
 2181：对外提供端口 2888：内部同步端口 3888：节点挂了，选举端口
 server.A = B:C:D
 </code></pre>
-<p>zookeeper 命令</p>
+<h2 id="zookeeper-常用命令">zookeeper 常用命令</h2>
 <pre><code># 启动
 ./bin/zkServer.sh  start 
 # 后台启动
